@@ -2,6 +2,7 @@ package com.demo.spring_boot_testing_demo.services;
 
 import com.demo.spring_boot_testing_demo.domain.Asset;
 import com.demo.spring_boot_testing_demo.repositories.AssetRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class AssetService {
         this.assetRepository = assetRepository;
     }
 
+    @Cacheable(cacheNames = "assets")
     public Optional<Asset> getAssetById(UUID id) {
         return assetRepository.findById(id);
     }
