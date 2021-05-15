@@ -20,9 +20,9 @@ public class AssetController {
     @GetMapping("/asset/{id}")
     public Asset getAssetById(@PathVariable UUID id){
         var asset = assetService.getAssetById(id);
-        if(asset == null){
+        if(asset.isEmpty()){
             throw new AssetNotFoundException();
         }
-        return asset;
+        return asset.get();
     }
 }

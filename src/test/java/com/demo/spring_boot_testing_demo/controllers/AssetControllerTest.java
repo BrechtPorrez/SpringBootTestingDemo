@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +32,7 @@ class AssetControllerTest {
     @Test
     void GetAssetById_happyPath() throws Exception {
 
-        when(assetService.getAssetById(any())).thenReturn(new Asset(UUID.randomUUID(), "sensor"));
+        when(assetService.getAssetById(any())).thenReturn(Optional.of(new Asset(UUID.randomUUID(), "sensor")));
 
         var id = UUID.randomUUID();
         mockMvc.perform(get("/asset/" + id.toString()))
@@ -41,7 +42,7 @@ class AssetControllerTest {
 
     @Test
     void GetAssetById_assetNotFound_shouldReturn404() throws Exception {
-        when(assetService.getAssetById(any())).thenReturn(null);
+        when(assetService.getAssetById(any())).thenReturn(Optional.empty());
 
         var id = UUID.randomUUID();
         mockMvc.perform(get("/asset/" + id.toString()))

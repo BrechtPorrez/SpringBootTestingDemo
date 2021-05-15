@@ -9,9 +9,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -31,12 +33,13 @@ class AssetServiceTest {
     @Test
     void getAssetById_happyPath(){
         var id  = UUID.randomUUID();
-        when(assetRepository.findById(any())).thenReturn(new Asset(id, "sensor"));
+        when(assetRepository.findById(any())).thenReturn(Optional.of(new Asset(id, "sensor")));
 
         var asset = assetService.getAssetById(UUID.randomUUID());
 
-        assertThat(asset.getName()).isEqualTo("sensor");
-        assertThat(asset.getId()).isEqualTo(id);
+        assertTrue(asset.isPresent());
+        assertThat(asset.get().getName()).isEqualTo("sensor");
+        assertThat(asset.get().getId()).isEqualTo(id);
     }
 
     @Test
