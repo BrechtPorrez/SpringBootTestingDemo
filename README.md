@@ -13,10 +13,11 @@ The goal is not to implement Spring Cloud, I will create another repo for that l
 - Swagger and Swagger UI
 - Postgres
 - Docker compose for Postgres and Redis
+- Caching with Redis
 
 
 ## To be implemented
-- Automatic mapper so the Domain object and the DTO can be split up
+- Automatic mapper so the Domain object and the DTO can be split up (Mapstruct)
 - RabbitMQ
 - Kafka
 - OAuth2
@@ -27,6 +28,12 @@ The goal is not to implement Spring Cloud, I will create another repo for that l
 - Flyway
 - Batch processing
 - Rest template
+- Sonarqube
+- Dependency check for vulns
+- Spring actuator and metrics
+- Spring integration with eg SFTP
+- Mongo DB
+- Reactive webflux
 - ...
 
 
