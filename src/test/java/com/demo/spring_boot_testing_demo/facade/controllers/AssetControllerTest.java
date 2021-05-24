@@ -1,6 +1,8 @@
-package com.demo.spring_boot_testing_demo.controllers;
+package com.demo.spring_boot_testing_demo.facade.controllers;
 
 import com.demo.spring_boot_testing_demo.domain.Asset;
+import com.demo.spring_boot_testing_demo.facade.dto.AssetDto;
+import com.demo.spring_boot_testing_demo.facade.mappers.AssetMapper;
 import com.demo.spring_boot_testing_demo.services.AssetService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,13 +30,16 @@ class AssetControllerTest {
 
     @MockBean
     private AssetService assetService;
+    @MockBean
+    private AssetMapper assetMapper;
 
     @Test
     void GetAssetById_happyPath() throws Exception {
-
-        when(assetService.getAssetById(any())).thenReturn(Optional.of(new Asset(UUID.randomUUID(), "sensor")));
-
         var id = UUID.randomUUID();
+
+        when(assetService.getAssetById(any())).thenReturn(Optional.of(new Asset(id, "sensor")));
+         when(assetMapper.map(any())).thenReturn(new AssetDto(id, "sensor"));
+
         mockMvc.perform(get("/asset/" + id.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("sensor"));
