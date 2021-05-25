@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,5 +26,9 @@ public class AssetService {
     public Optional<Asset> getAssetById(UUID id) {
         publisher.publishEvent(new AssetCreatedEvent(this, "created"));
         return assetRepository.findById(id);
+    }
+
+    public List<Asset> findAllAssets() {
+        return assetRepository.findAll();
     }
 }

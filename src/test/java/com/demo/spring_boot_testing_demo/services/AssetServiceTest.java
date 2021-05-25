@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,6 +62,28 @@ class AssetServiceTest {
         var asset = assetService.getAssetById(UUID.randomUUID());
 
         assertThat(asset).isEqualTo(null);
+    }
+
+    @Test
+    void getAllAssets_happyPath(){
+        final List<Asset> originalAssets = List.of(
+                new Asset("sensor1"),
+                new Asset("sensor2")
+        );
+        when(assetRepository.findAll()).thenReturn(originalAssets);
+
+        var assets = assetService.findAllAssets();
+
+        assertThat(assets).hasSameElementsAs(originalAssets);
+    }
+
+    @Test
+    void getAllAssets_emptyList(){
+        when(assetRepository.findAll()).thenReturn(new ArrayList<>());
+
+        var assets = assetService.findAllAssets();
+
+        assertTrue(assets.isEmpty());
     }
 
     @Test

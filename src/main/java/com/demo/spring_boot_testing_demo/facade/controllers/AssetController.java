@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
+
+import static java.util.stream.Collectors.toList;
 
 @Api(value = "DemoRestController")
 @RestController
@@ -25,7 +28,7 @@ public class AssetController {
         this.assetMapper = assetMapper;
     }
 
-    @GetMapping("/asset/{id}")
+    @GetMapping("/assets/{id}")
     @ApiOperation(value = "Get an asset by assetId", response = Iterable.class, tags = "getAssetsById")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success|OK"),
@@ -36,5 +39,13 @@ public class AssetController {
             throw new AssetNotFoundException();
         }
         return assetMapper.map(asset.get());
+    }
+
+    @GetMapping("/assets")
+    public List<AssetDto> getAllAssets(){
+        var assets = assetService.findAllAssets();
+        return assets.stream()
+                .map(assetMapper::map)
+                .collect(toList());
     }
 }
